@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Commission</title>
+</head>
+<body>
+
+
+<div>
+    <form action="#" th:action="@{/commission/add}" th:object="${uneCommission}" method="post">
+        <pre>
+            Montant Minimal           : <input type="text" th:field="*{montantMin}">
+            Montant Maximal           : <input type="text" th:field="*{montantMax}">
+            Commission                : <input type="text" th:field="*{comm}">
+
+
+            <button type="submit">Ajouter</button>
+        </pre>
+        <span th:text="${msg}"></span>
+
+    </form>
+</div>
+
+
+</body>
+</html>

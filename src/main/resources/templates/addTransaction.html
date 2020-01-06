@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Transaction</title>
+</head>
+<body>
+<div>
+    <form action="#" th:action="@{/transaction/add}" th:object="${uneTransaction}" method="post">
+        <pre>
+            Date                : <input type="text" th:field="*{date}">
+            Montant             : <input type="text" th:field="*{montant}">
+            Type                : <input type="text" th:field="*{type}">
+            Code                : <input type="text" th:field="*{code}">
+
+
+            <button type="submit">Ajouter</button>
+        </pre>
+        <span th:text="${msg}"></span>
+
+    </form>
+</div>
+
+</body>
+</html>

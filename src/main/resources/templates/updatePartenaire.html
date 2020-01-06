@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<div>
+    <form enctype="multipart/form-data" action="#" th:action="@{/api/partenaire/update}" th:object="${unPartenaire}" method="post">
+
+        <table>
+            <tr>
+                <td>
+            <pre>
+                            INFORMATION PARTENAIRE <br/>
+            Nom                   : <input type="text" required th:field="*{nom}">
+            Adresse               : <input style="margin-top: 10px;" type="text" required th:field="*{adresse}">
+            Mail                  : <input style="margin-top: 10px;" type="text" required th:field="*{mail}">
+            Telephone             : <input style="margin-top: 10px;" type="text" required th:field="*{tel}">
+            Ninea                 : <input style="margin-top: 10px;" type="text" required th:field="*{ninea}">
+            </pre>
+                </td>
+                <td><pre>  <img th:src="@{image/default}" id="image"/></td></pre></td>
+            </tr>
+        </table>
+        <pre>
+            <div th:each="u, itemu : *{utilisateurList}">
+                            INFORMATION UTILISATEUR <br/>
+            Prénom & Nom          : <input type="text" required th:field="*{utilisateurList[__${itemu.index}__].nomComplet}">
+            Mail                  : <input style="margin-top: 10px;" type="text" required th:field="*{utilisateurList[__${itemu.index}__].email}">
+            Photo                 : <input style="margin-top: 10px;" id="fichier" type="file" accept=".png,.jpg, .jpeg" th:field="*{utilisateurList[__${itemu.index}__].files}">
+            </div>
+                                <button type="submit">Ajouter</button>
+        </pre>
+        <pre>
+                    <span th:text="${msg}"></span>
+                    <span th:text="${val}"></span>
+                    <ul>
+                        <li th:if="${errormailpartenaire != null}" th:text="${errormailpartenaire}"></li>
+                        <li th:if="${errormailuser != null}" th:text="${errormailuser}"></li>
+                        <li th:if="${errorninea != null}" th:text="${errorninea}"></li>
+                        <li th:if="${error != null}" th:text="${error}"></li>
+                    </ul>
+        </pre>
+    </form>
+</div>
+<script type="application/javascript" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+<script type="application/javascript">
+    function imageIsLoaded(e) {
+        //$("#file").css("color","green");
+        //$('#image_preview').css("display", "block");
+        $('#image').attr('src', e.target.result);
+        $('#image').attr('width', '100px');
+        $('#image').attr('height', '100px');
+    };
+    $('#fichier').change(function () {
+        if (this.files && this.files[0]) {
+            var file = this.files[0];
+            var imagefile = file.type;
+            var reader = new FileReader();
+            reader.onload = imageIsLoaded;
+            reader.readAsDataURL(this.files[0]);
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

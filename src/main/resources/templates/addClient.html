@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div>
+    <form action="#" th:action="@{/client/add}" th:object="${unClient}" method="post">
+        <pre>
+            Piece d'identite           : <input type="text" th:field="*{numPiece}">
+            Nom                        : <input type="text" th:field="*{nom}">
+            Telephone                  : <input type="text" th:field="*{tel}">
+
+
+            <button type="submit">Ajouter</button>
+        </pre>
+        <span th:text="${msg}"></span>
+
+    </form>
+</div>
+
+
+</body>
+</html>
