@@ -14,7 +14,7 @@
 <body>
 <h2>partenaire liste</h2>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal" >Nouveau</button>
+<a class="btn btn-primary" th:href="@{/api/partenaire/}" >Nouveau</a>
 
 
 <table class="table table-stripped">
@@ -37,7 +37,7 @@
         <td th:text="${partenaire.mail}">Email</td>
         <td th:text="${partenaire.tel}">Telephone</td>
         <td th:text="${partenaire.ninea}">Ninea</td>
-        <td> <button type="submit" th:href="@{/partenaire/getOne/(Id=${partenaire.id})}" class="btn btn-warning" data-toggle="modal" data-target="#editModal" >Edit</button>
+        <td> <a th:href="@{/api/partenaire/update(Id=${partenaire.id})}" class="btn btn-warning">Edit</a>
 
         </td>
 

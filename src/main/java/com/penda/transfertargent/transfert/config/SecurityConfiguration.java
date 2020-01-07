@@ -37,8 +37,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService ;
 
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
     
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth)

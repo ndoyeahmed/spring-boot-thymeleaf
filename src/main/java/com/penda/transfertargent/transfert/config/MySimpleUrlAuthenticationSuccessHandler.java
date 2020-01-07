@@ -111,7 +111,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         if (isAdmin) {
             return "api/transaction/";
         } else if (isSuperAdmin) {
-            return "api/partenaire/";
+            return "api/partenaire/list";
         } else if (isCaisse) {
             return "transfert/versement/";
         } else if (isUser) {

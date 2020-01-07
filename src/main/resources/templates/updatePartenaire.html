@@ -14,24 +14,26 @@
                 <td>
             <pre>
                             INFORMATION PARTENAIRE <br/>
-            Nom                   : <input type="text" required th:field="*{nom}">
-            Adresse               : <input style="margin-top: 10px;" type="text" required th:field="*{adresse}">
-            Mail                  : <input style="margin-top: 10px;" type="text" required th:field="*{mail}">
-            Telephone             : <input style="margin-top: 10px;" type="text" required th:field="*{tel}">
-            Ninea                 : <input style="margin-top: 10px;" type="text" required th:field="*{ninea}">
+                              <input type="hidden" required th:field="*{id}">
+            Nom                   : <input disabled type="text" required th:field="*{nom}">
+            Adresse               : <input disabled style="margin-top: 10px;" type="text" required th:field="*{adresse}">
+            Mail                  : <input disabled style="margin-top: 10px;" type="text" required th:field="*{mail}">
+            Telephone             : <input disabled style="margin-top: 10px;" type="text" required th:field="*{tel}">
+            Ninea                 : <input disabled style="margin-top: 10px;" type="text" required th:field="*{ninea}">
             </pre>
                 </td>
-                <td><pre>  <img th:src="@{image/default}" id="image"/></td></pre></td>
+                <td><pre>  <img alt="t" th:src="@{'image-update/' + ${imgUrl}}" id="image"/></pre></td>
             </tr>
         </table>
         <pre>
-            <div th:each="u, itemu : *{utilisateurList}">
+            <div >
                             INFORMATION UTILISATEUR <br/>
-            Prénom & Nom          : <input type="text" required th:field="*{utilisateurList[__${itemu.index}__].nomComplet}">
-            Mail                  : <input style="margin-top: 10px;" type="text" required th:field="*{utilisateurList[__${itemu.index}__].email}">
-            Photo                 : <input style="margin-top: 10px;" id="fichier" type="file" accept=".png,.jpg, .jpeg" th:field="*{utilisateurList[__${itemu.index}__].files}">
+            <input type="hidden" required th:field="*{utilisateurList[0].id}">
+            Prénom & Nom          : <input disabled type="text" required th:field="*{utilisateurList[0].nomComplet}">
+            Mail                  : <input disabled style="margin-top: 10px;" type="text" required th:field="*{utilisateurList[0].email}">
+            Photo                 : <input style="margin-top: 10px;" id="fichier" type="file" accept=".png,.jpg, .jpeg" th:field="*{utilisateurList[0].files}">
             </div>
-                                <button type="submit">Ajouter</button>
+                                <button type="submit">Modifier</button>
         </pre>
         <pre>
                     <span th:text="${msg}"></span>

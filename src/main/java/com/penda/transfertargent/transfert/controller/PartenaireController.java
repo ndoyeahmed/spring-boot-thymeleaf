@@ -10,6 +10,7 @@ import com.penda.transfertargent.transfert.model.Role;
 import com.penda.transfertargent.transfert.model.Utilisateur;
 import com.penda.transfertargent.transfert.service.PartenaireClientService;
 import com.penda.transfertargent.transfert.service.TransComptVerseService;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -61,6 +62,13 @@ public class PartenaireController {
         return Files.readAllBytes(serverFile.toPath());
     }
 
+    @RequestMapping(value = "image-update/{imageName}")
+    @ResponseBody
+    public byte[] getImageForUpdate(@PathVariable(value = "imageName") String imageName) throws IOException {
+        File serverFile = new File("D://cours//M2//JEE//image//" + imageName);
+        return Files.readAllBytes(serverFile.toPath());
+    }
+
     @PreAuthorize("hasAuthority('ROLE_SUPERADMIN')")
     @GetMapping("/")
     public String index(Model model) {
@@ -72,6 +80,61 @@ public class PartenaireController {
         partenaire.setUtilisateurList(users);
         model.addAttribute("unPartenaire", partenaire);
         return "addPartenaire";
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_SUPERADMIN')")
+    @GetMapping("/update")
+    public String update(@RequestParam("Id") Integer id, Model model) {
+        Partenaire partenaire = partenaireClientService.getOne(id).orElse(null);
+        if (partenaire != null) {
+            String imgUrl = partenaire.getUtilisateurList().get(0).getPhoto();
+            System.out.println(imgUrl);
+            model.addAttribute("unPartenaire", partenaire);
+            model.addAttribute("imgUrl", imgUrl);
+            model.addAttribute("errormailpartenaire", "");
+            model.addAttribute("errormailuser", "");
+            model.addAttribute("errorninea", "");
+            model.addAttribute("error", "");
+            return "updatePartenaire";
+        } else return "listPartenaire";
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_SUPERADMIN')")
+    @PostMapping("/update")
+    public String updatePartenaire(@ModelAttribute("unPartenaire") Partenaire p, Model model) {
+        try {
+            Utilisateur utilisateur = p.getUtilisateurList().get(0);
+            Utilisateur utilisateur1 = iUtilisateur.findById(p.getUtilisateurList().get(0).getId()).orElse(null);
+            if (utilisateur1 != null) {
+                byte[] bytes = {};
+                Path path = null;
+                if (!utilisateur.getFiles()[0].getName().equals("")) {
+                    MultipartFile file = utilisateur.getFiles()[0];
+                    bytes = file.getBytes();
+                    path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
+                    utilisateur.setPhoto(file.getOriginalFilename());
+                } else {
+                    utilisateur.setPhoto("default.jpeg");
+                }
+
+                utilisateur1.setPhoto(utilisateur.getPhoto());
+                utilisateur1.setFiles(utilisateur.getFiles());
+                try {
+                    iUtilisateur.save(utilisateur1);
+                    if (bytes.length != 0) {
+                        Files.write(path, bytes);
+                    }
+                    return "redirect:/api/partenaire/list";
+                } catch (Exception e) {
+                    model.addAttribute("error", "Une erreur s'est produite");
+                    e.printStackTrace();
+                }
+            } else return "redirect:/api/partenaire/list";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "updatePartenaire";
     }
 
     @PreAuthorize("hasAuthority('ROLE_SUPERADMIN')")
